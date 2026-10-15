@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    CineData:
+      name: CineData
+      tasks:
+        - task_key: to_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/vimorotti@gmail.com/Atividade 2/landing_bronze
+            source: WORKSPACE
+        - task_key: to_Silver
+          depends_on:
+            - task_key: to_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/vimorotti@gmail.com/Atividade 2/bronze_to_silver
+            source: WORKSPACE
+        - task_key: to_Gold
+          depends_on:
+            - task_key: to_Silver
+          notebook_task:
+            notebook_path: /Workspace/Users/vimorotti@gmail.com/Atividade 2/silver_to_gold
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
+      triggers:
+        - pause_status: UNPAUSED
+          file_arrival:
+            url: /Volumes/cinedata/bronze/landing/
